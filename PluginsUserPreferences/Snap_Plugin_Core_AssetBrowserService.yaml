@@ -1,0 +1,13 @@
+ExternalSources:
+  type: "std::map<Es::Uuid, Es::Path>"
+  value:
+    - 19f8a0ef-872b-47dc-a616-bc19280ff966: /Users/vincenttrastour/Downloads/icon_pop_game.png
+    - 54b66644-ae19-4835-a255-1638d2c45647: /Users/vincenttrastour/Downloads/autumn_field_puresky_1k.hdr
+    - 71f39da1-1014-4423-8b7d-82c3c67dc6df: /Users/vincenttrastour/Downloads/error-10-206498.mp3
+    - 75d3c8c4-3644-43de-92a8-e54fe47e3941: /Users/vincenttrastour/Downloads/game_music.mp3
+    - c09f876c-0662-4eb1-a4cd-e9916b5e79f9: /Users/vincenttrastour/Documents/game_loop.mp3
+    - c4a0ffcc-e5d6-4667-aab8-61050433d4ea: /Users/vincenttrastour/Downloads/Modak/Modak-Regular.ttf
+    - ecb50f76-b1e8-4656-b674-5cc97bcb9a45: /Users/vincenttrastour/Downloads/menu_music.mp3
+    - f4595835-5b14-44cb-8b6c-424981ffc569: /Users/vincenttrastour/Downloads/coin-recieved-230517.mp3
+    - f903d864-65a1-4524-a263-fdb61007d058: /Users/vincenttrastour/Downloads/race-start-beeps-125125.mp3
+  options: 4

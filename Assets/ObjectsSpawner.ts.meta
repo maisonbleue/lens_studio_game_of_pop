@@ -1,0 +1,39 @@
+- !<AssetImportMetadata/ddd8d59d-f4f4-4ece-bb7c-0e4f4af527af>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> 1325e48d-3515-4532-aec9-0eaf6048e64c
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> 1325e48d-3515-4532-aec9-0eaf6048e64c
+  PackageType: NotAPackage
+  PackagePolicy: CannotBeUnpacked
+  AssetDataMap:
+    TypeScriptAsset: !<own> ea293d08-f287-460d-879b-ac8edab756bc
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings/df24705d-06a8-4bc1-b098-68e2d58726be>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/ea293d08-f287-460d-879b-ac8edab756bc>
+  SvgIcon: ""
+  Description: ""
+  InternalVersion: 0
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  ComponentUid: 00000000-0000-0000-0000-000000000000
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  CurrentVisibility: Editable
+  MaxVisibility: Editable
+  ScriptInputsHidden:
+    prefabBallon: false
+    scoreManager: false
+  ScriptTypesHidden:
+    {}
+  DefaultScriptInputs:
+    - scoreManager: !<MappingBased.ScoreManager> 00000000-0000-0000-0000-000000000000
+      prefabBallon: !<reference.ObjectPrefab> 00000000-0000-0000-0000-000000000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input ScoreManager scoreManager
+    - // @input Asset.ObjectPrefab prefabBallon
