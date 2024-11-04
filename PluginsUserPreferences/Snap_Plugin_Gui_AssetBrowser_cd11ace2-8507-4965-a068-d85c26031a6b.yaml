@@ -1,7 +1,7 @@
 CollapsedEntities:
   type: stringset
   value:
-    size: 390
+    size: 392
     values:
       - Base.png
       - Device Camera Texture.deviceCameraTexture
@@ -376,6 +376,8 @@ CollapsedEntities:
       - TweenManager/TweenManager.prefab
       - Uber Unlit 1.mat
       - Uber Unlit.mat
+      - World Mesh - Spawn On Surfaces
+      - World Mesh - Spawn On Surfaces/package.native
       - World Query Module.worldQueryModule
       - autumn_field_puresky_1k.hdr
       - autumn_field_puresky_1k.hdr/Diffuse

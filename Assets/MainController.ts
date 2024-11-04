@@ -57,8 +57,26 @@ export class MainController extends BaseScriptComponent {
         return Math.random() < this.difficulty ? 0 : 1; // Returns 0 20% of the time, otherwise returns 1
     }
 
+    // spawnGameObjects() {
+    //     if (!this.gameIsOn) return;
+    
+    //     const spawnInterval = 1000; // 1 second
+    //     const spawnObjects = () => {
+    //         if (!this.gameIsOn) return;
+    
+    //         const objectsToSpawn = Math.floor(Math.random() * 3) + 1; // Randomly spawn 1 to 3 objects
+    //         for (let i = 0; i < objectsToSpawn; i++) {
+    //             this.spawnSingleObject();
+    //         }
+    
+    //         setTimeout(spawnObjects, spawnInterval);
+    //     };
+    
+    //     spawnObjects();
+    // }
+
     spawnGameObjects() {
-        for (var i = 0; i < 50; i++) {
+        for (var i = 0; i < 25; i++) {
             setTimeout(() => {
                 this.spawnSingleObject(); // Call spawnSingleObject instead of duplicating logic
             }, i * 100); // Delay each spawn by 100ms
@@ -89,6 +107,105 @@ export class MainController extends BaseScriptComponent {
         tween.start();
     }
 
+    // Function to check if an object is colliding with the world mesh
+    isObjectCollidingWithWorldMesh(objectPosition, objectSize) {
+        // Define the start and end points for the raycast
+        var from = objectPosition;
+        var to = objectPosition.add(new vec3(0, -objectSize, 0)); // Assuming downward raycast
+
+        // Perform the raycast
+        var hitTestResult = GLOBAL_SCRIPT.WorldMeshController.getHitTestResult3D(from, to);
+
+        // Check if the result is valid
+        return hitTestResult.isValid();
+    }
+
+    multiplyVectorByScalar(vector: vec3, scalar: number): vec3 {
+        return new vec3(
+            vector.x * scalar,
+            vector.y * scalar,
+            vector.z * scalar
+        );
+    }
+    
+    // spawnSingleObject() {
+    //     if (!this.gameIsOn) return;
+    //     this.userPosition = this.cameraTransform.getWorldPosition();
+    //     let position: vec3;
+    //     let isOverlapping: boolean;
+    //     let isCollidingWithWorldMesh: boolean;
+    //     const minDistance = 100; // Minimum distance from userPosition
+    //     const maxDistance = 200; // Maximum distance from userPosition
+    
+    //     do {
+    //         // Correctly calculate the forward direction from the camera's transform
+    //         const forwardDirection = this.cameraTransform.back.normalize();
+    
+    //         const randomDistance = minDistance + Math.random() * (maxDistance - minDistance); // Random distance between min and max
+    
+    //         // Introduce randomness to the horizontal plane
+    //         const angleOffset = (Math.random() - 0.5) * Math.PI / 4; // Random angle offset within ±22.5 degrees
+    //         const cosOffset = Math.cos(angleOffset);
+    //         const sinOffset = Math.sin(angleOffset);
+    
+    //         // Rotate the forward direction by the angle offset
+    //         const rotatedForward = new vec3(
+    //             forwardDirection.x * cosOffset - forwardDirection.z * sinOffset,
+    //             forwardDirection.y,
+    //             forwardDirection.x * sinOffset + forwardDirection.z * cosOffset
+    //         );
+    
+    //         // Perform scalar multiplication manually
+    //         const scaledForward = new vec3(
+    //             rotatedForward.x * randomDistance,
+    //             rotatedForward.y * randomDistance,
+    //             rotatedForward.z * randomDistance
+    //         );
+    
+    //         // Ensure objects spawn in front of the user
+    //         position = this.userPosition.add(scaledForward);
+    
+    //         // Randomize the y position slightly to add variation
+    //         position.y += (Math.random() - 0.5) * 100;
+    //         position.x += (Math.random() - 0.5) * 100;
+    //         position.z += (Math.random() - 0.5) * 100;
+    
+    //         const distanceFromUser = this.userPosition.distance(position);
+    
+    //         isOverlapping = distanceFromUser < minDistance || this.spawnedObjects.some(existingPosition => 
+    //             this.isOverlapping(existingPosition, position)
+    //         );
+    
+    //         // Perform the raycast to check for collision
+    //         const hitTestResult = GLOBAL_SCRIPT.WorldMeshController.getHitTestResult3D(position, position.add(new vec3(0, -10, 0)));
+    //         isCollidingWithWorldMesh = hitTestResult.isValid();
+    
+    //         // If colliding, adjust the position to the collision point
+    //         if (isCollidingWithWorldMesh) {
+    //             const classification = hitTestResult.getClassification();
+    //             const collisionPoint = hitTestResult.getWorldPos();
+    //             const directionToUser = this.userPosition.sub(collisionPoint).normalize();
+    //             let distanceToUser = 100;
+    //             if (classification === 2 || classification === 3) {
+    //                 distanceToUser = 200 + Math.random() * 100;
+    //             }
+    
+    //             // Perform scalar multiplication manually
+    //             const scaledDirection = new vec3(
+    //                 directionToUser.x * distanceToUser,
+    //                 directionToUser.y * distanceToUser,
+    //                 directionToUser.z * distanceToUser
+    //             );
+    
+    //             position = collisionPoint.add(scaledDirection);
+    //         }
+    //     } while (isOverlapping); // Only check for overlap, as collision is handled
+    
+    //     if (!this.gameIsOn) return;
+    //     this.objectsSpawner.spawn(this.gameScene, this.getRandomZero(), position);
+    //     this.spawnedObjects.push(position); // Save the position of the spawned object
+    // }
+
     spawnSingleObject() {
         if (!this.gameIsOn) return;
         let x: number;
@@ -96,28 +213,33 @@ export class MainController extends BaseScriptComponent {
         let z: number;
         let position: vec3;
         let isOverlapping: boolean;
+        let isCollidingWithWorldMesh: boolean;
         const minDistance = 100; // Minimum distance from userPosition
         const maxDistance = 200; // Maximum distance from userPosition
-
+    
         do {
             const randomDirection = Math.random() * 2 * Math.PI; // Random angle in radians
             const randomDistance = minDistance + Math.random() * (maxDistance - minDistance); // Random distance between min and max
-
+    
             x = this.userPosition.x + Math.cos(randomDirection) * randomDistance;
             y = this.userPosition.y + (Math.random() - 0.5) * 100;
             z = this.userPosition.z + Math.sin(randomDirection) * randomDistance;
             position = new vec3(x, y, z);
-
+    
             const distanceFromUser = Math.sqrt(
                 Math.pow(this.userPosition.x - position.x, 2) +
                 Math.pow(this.userPosition.y - position.y, 2) +
                 Math.pow(this.userPosition.z - position.z, 2)
             );
-
+    
             isOverlapping = distanceFromUser < minDistance || this.spawnedObjects.some(existingPosition => 
                 this.isOverlapping(existingPosition, position)
             );
-        } while (isOverlapping);
+    
+            // Check for collision with the world mesh
+            isCollidingWithWorldMesh = this.isObjectCollidingWithWorldMesh(position, 10); // Assuming object size is 10
+    
+        } while (isOverlapping || isCollidingWithWorldMesh); // Ensure no overlap or collision
     
         if (!this.gameIsOn) return;
         this.objectsSpawner.spawn(this.gameScene, this.getRandomZero(), position);
